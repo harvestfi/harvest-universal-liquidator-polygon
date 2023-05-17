@@ -1,0 +1,29 @@
+{
+  "name": "harvest-universal-liquidator-polygon",
+  "version": "1.0.0",
+  "description": "The gateway for all Harvest strategies to execute swaps with multiple Dexes.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harvestfi/harvest-universal-liquidator-polygon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harvestfi/harvest-universal-liquidator-polygon/issues"
+  },
+  "homepage": "https://github.com/harvestfi/harvest-universal-liquidator-polygon#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "husky": "^8.0.3"
+  }
+}
