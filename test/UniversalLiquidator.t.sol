@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
+import "forge-std/console.sol";
+
 // import test base and helpers.
 import {AdvancedFixture} from "./AdvancedFixture.t.sol";
 
@@ -9,12 +11,8 @@ contract UniversalLiquidatorTest is AdvancedFixture {
         // setup farmer, governance, and faucet
 
         // setup sellToken, buyToken, and whale
-        // deploy UL, ULR, and dexes
 
-        // setup intermediate tokens
-        // setup paths
-        // setup fees
-        // setup pools
+        //console.log(universalLiquidatorRegistry.getAllIntermediateTokens().length);
     }
 
     function testSwapWithSingleStep() public {}
@@ -26,8 +24,6 @@ contract UniversalLiquidatorTest is AdvancedFixture {
     function testCannotSwapWithPathUnset() public {}
 
     function testCannotSwapWithDexUnapproved() public {}
-
-    function testCannotSwapWithInvalidPath() public {}
 
     function testCannotSwapWithInvalidMinBuyAmount() public {}
 }
