@@ -19,4 +19,18 @@ library Types {
         address whale;
         DexSetting[] dexSetup;
     }
+
+    struct PoolPair {
+        address sellToken;
+        address buyToken;
+        string dexName;
+        bytes32[] pools;
+    }
+
+    struct FeePair {
+        address sellToken;
+        address buyToken;
+        string dexName;
+        uint256 fee;
+    }
 }
