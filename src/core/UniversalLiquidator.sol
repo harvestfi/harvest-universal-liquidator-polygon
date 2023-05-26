@@ -23,7 +23,7 @@ contract UniversalLiquidator is Ownable, IUniversalLiquidator {
     function swap(address _sellToken, address _buyToken, uint256 _sellAmount, uint256 _minBuyAmount, address _receiver)
         external
         override
-        returns (uint256)
+        returns (uint256 receiveAmt)
     {
         DataTypes.SwapInfo[] memory swapInfo = IUniversalLiquidatorRegistry(pathRegistry).getPath(_sellToken, _buyToken);
 
@@ -41,7 +41,7 @@ contract UniversalLiquidator is Ownable, IUniversalLiquidator {
                 minBuyAmount = _minBuyAmount;
                 receiver = _receiver;
             }
-            _swap(
+            receiveAmt = _swap(
                 IERC20(swapInfo[idx].paths[0]).balanceOf(swapInfo[idx].dex),
                 minBuyAmount,
                 receiver,
@@ -56,8 +56,9 @@ contract UniversalLiquidator is Ownable, IUniversalLiquidator {
 
     function _swap(uint256 _sellAmount, uint256 _minBuyAmount, address _receiver, address _dex, address[] memory _path)
         internal
+        returns (uint256 receiveAmt)
     {
-        ILiquidityDex(_dex).doSwap(_sellAmount, _minBuyAmount, _receiver, _path);
+        receiveAmt = ILiquidityDex(_dex).doSwap(_sellAmount, _minBuyAmount, _receiver, _path);
 
         emit Swap(_path[0], _path[_path.length - 1], _receiver, msg.sender, _sellAmount, _minBuyAmount);
     }
