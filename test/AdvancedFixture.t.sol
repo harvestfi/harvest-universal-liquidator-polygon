@@ -2,7 +2,6 @@
 pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
-import "forge-std/console2.sol";
 
 import "../src/core/UniversalLiquidator.sol";
 import "../src/core/UniversalLiquidatorRegistry.sol";
@@ -21,6 +20,8 @@ import "./config/Pools.t.sol";
 import "./config/Fees.t.sol";
 
 abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, CrossDexSwapPaths, Pools, Fees, EnvVariables {
+    uint256 _polygonFork;
+
     UniversalLiquidator internal _universalLiquidator;
     UniversalLiquidatorRegistry internal _universalLiquidatorRegistry;
 
@@ -39,9 +40,14 @@ abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, Cros
     ];
 
     constructor() {
+        // fork testing environment
+        _polygonFork = vm.createFork(_POLYGON_RPC_URL);
+        vm.selectFork(_polygonFork);
         // deploy UL, ULR, and dexes
-        _universalLiquidator = new UniversalLiquidator();
         _universalLiquidatorRegistry = new UniversalLiquidatorRegistry();
+        _universalLiquidator = new UniversalLiquidator();
+        _universalLiquidator.setPathRegistry(address(_universalLiquidatorRegistry));
+
         _setupDexes();
         // setup intermediate tokens
         _universalLiquidatorRegistry.setIntermediateToken(_intermediateTokens);
@@ -78,6 +84,7 @@ abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, Cros
     function _setupPaths() internal {
         for (uint256 i; i < _singleTokenPairCount;) {
             uint256 requiredDex = _singleTokenPairs[i].dexSetup.length;
+
             for (uint256 j; j < requiredDex;) {
                 bytes32 dexId = _dexesByName[_singleTokenPairs[i].dexSetup[j].dexName].id;
                 _universalLiquidatorRegistry.setPath(dexId, _singleTokenPairs[i].dexSetup[j].paths);
