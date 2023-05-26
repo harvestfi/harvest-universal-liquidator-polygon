@@ -10,46 +10,48 @@ abstract contract SingleSwapPaths {
     constructor() {
         address[] memory _path = new address[](2);
 
-        _path[0] = 0xB4a925BAe55743AcF3Dc65a8de0b9507F0491617;
-        _path[1] = 0x288071244112050c93389A950d02c9E626D611dD;
+        // Pair0 - WETH -> BOB
+        _path[0] = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619;
+        _path[1] = 0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B;
 
         Types.TokenPair storage newTokenPair = _singleTokenPairs[_singleTokenPairCount++];
-        newTokenPair.sellToken = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619; // WETH
-        newTokenPair.buyToken = 0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B; // BOB
+        newTokenPair.sellToken = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619;
+        newTokenPair.buyToken = 0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B;
         newTokenPair.intermediateToken = address(0);
         newTokenPair.whale = 0x62ac55b745F9B08F1a81DCbbE630277095Cf4Be1;
         newTokenPair.dexSetup.push(Types.DexSetting("uniV3", _path));
 
-        _path[0] = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619;
-        _path[1] = 0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B;
+        // Pair1 - WMATIC -> stMATIC
+        _path[0] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
+        _path[1] = 0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4;
 
-        /*
         newTokenPair = _singleTokenPairs[_singleTokenPairCount++];
-        newTokenPair.sellToken = 0x5979D7b546E38E414F7E9822514be443A4800529; // wstETH
-        newTokenPair.buyToken = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619; // WETH
+        newTokenPair.sellToken = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
+        newTokenPair.buyToken = 0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4;
         newTokenPair.intermediateToken = address(0);
-        newTokenPair.whale = 0xD090D2C8475c5eBdd1434A48897d81b9aAA20594;
+        newTokenPair.whale = 0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827;
         newTokenPair.dexSetup.push(Types.DexSetting("balancer", _path));
 
-        _path[0] = 0xd4d42F0b6DEF4CE0383636770eF773390d85c61A;
-        _path[1] = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619;
+        // Pair2 - WMATIC -> SUSHI
+        _path[0] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
+        _path[1] = 0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a;
 
         newTokenPair = _singleTokenPairs[_singleTokenPairCount++];
-        newTokenPair.sellToken = 0xd4d42F0b6DEF4CE0383636770eF773390d85c61A; // SUSHI
-        newTokenPair.buyToken = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619; // WETH
+        newTokenPair.sellToken = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
+        newTokenPair.buyToken = 0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a;
         newTokenPair.intermediateToken = address(0);
-        newTokenPair.whale = 0x1714400FF23dB4aF24F9fd64e7039e6597f18C2b;
+        newTokenPair.whale = 0x6e7a5FAFcec6BB1e78bAE2A1F0B612012BF14827;
         newTokenPair.dexSetup.push(Types.DexSetting("sushi", _path));
 
-        _path[0] = 0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9;
-        _path[1] = 0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8;
+        // Pair3 - USDC -> DAI
+        _path[0] = 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174;
+        _path[1] = 0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063;
 
         newTokenPair = _singleTokenPairs[_singleTokenPairCount++];
-        newTokenPair.sellToken = 0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9; // USDT
-        newTokenPair.buyToken = 0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8; // USDC
+        newTokenPair.sellToken = 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174;
+        newTokenPair.buyToken = 0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063;
         newTokenPair.intermediateToken = address(0);
-        newTokenPair.whale = 0xf89d7b9c864f589bbF53a82105107622B35EaA40;
+        newTokenPair.whale = 0x72A53cDBBcc1b9efa39c834A540550e23463AAcB;
         newTokenPair.dexSetup.push(Types.DexSetting("curve", _path));
-        */
     }
 }

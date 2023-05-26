@@ -9,72 +9,24 @@ abstract contract Pools {
 
     constructor() {
         bytes32[] memory _curPool = new bytes32[](2);
-        _curPool[0] = 0xcc65a812ce382ab909a11e434dbf75b34f1cc59d000200000000000000000001;
-        _curPool[1] = 0xc764b55852f8849ae69923e45ce077a576bf9a8d0002000000000000000003d7;
+
+        // Pool0 - WMATIC -> stMATIC
+        _curPool[0] = 0x8159462d255c1d24915cb51ec361f700174cd99400000000000000000000075d;
 
         Types.PoolPair storage newPool = _pools[_poolPairsCount++];
-        newPool.sellToken = 0x040d1EdC9569d4Bab2D15287Dc5A4F10F56a56B8; // BAL
-        newPool.buyToken = 0x912CE59144191C1204E64559FE8253a0e49E6548; // ARB
-        newPool.dexName = "balancer";
-        newPool.pools = _curPool;
-
-        _curPool = new bytes32[](1);
-        _curPool[0] = 0x36bf227d6bac96e2ab1ebb5492ecec69c691943f000200000000000000000316;
-
-        newPool = _pools[_poolPairsCount++];
-        newPool.sellToken = 0x5979D7b546E38E414F7E9822514be443A4800529; // wstETH
-        newPool.buyToken = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1; // WETH
-        newPool.dexName = "balancer";
-        newPool.pools = _curPool;
-
-        _curPool[0] = 0x178e029173417b1f9c8bc16dcec6f697bc323746000200000000000000000158;
-
-        newPool = _pools[_poolPairsCount++];
-        newPool.sellToken = 0x5979D7b546E38E414F7E9822514be443A4800529; // wstETH
-        newPool.buyToken = 0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8; // USDC
+        newPool.sellToken = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
+        newPool.buyToken = 0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4;
         newPool.dexName = "balancer";
         newPool.pools = _curPool;
 
         _curPool = new bytes32[](2);
-        _curPool[0] = 0x36bf227d6bac96e2ab1ebb5492ecec69c691943f000200000000000000000316;
-        _curPool[1] = 0xc764b55852f8849ae69923e45ce077a576bf9a8d0002000000000000000003d7;
+
+        // Pool1 - USDC -> DAI
+        _curPool[0] = bytes20(0x445FE580eF8d70FF569aB36e80c647af338db351);
 
         newPool = _pools[_poolPairsCount++];
-        newPool.sellToken = 0x5979D7b546E38E414F7E9822514be443A4800529; // wstETH
-        newPool.buyToken = 0x912CE59144191C1204E64559FE8253a0e49E6548; // ARB
-        newPool.dexName = "balancer";
-        newPool.pools = _curPool;
-
-        _curPool = new bytes32[](1);
-        _curPool[0] = 0xcc65a812ce382ab909a11e434dbf75b34f1cc59d000200000000000000000001;
-
-        newPool = _pools[_poolPairsCount++];
-        newPool.sellToken = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1; // WETH
-        newPool.buyToken = 0x040d1EdC9569d4Bab2D15287Dc5A4F10F56a56B8; // BAL
-        newPool.dexName = "balancer";
-        newPool.pools = _curPool;
-
-        _curPool[0] = bytes20(0x7f90122BF0700F9E7e1F688fe926940E8839F353);
-
-        newPool = _pools[_poolPairsCount++];
-        newPool.sellToken = 0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9; // USDT
-        newPool.buyToken = 0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8; // USDC
-        newPool.dexName = "curve";
-        newPool.pools = _curPool;
-
-        _curPool[0] = bytes20(0xC9B8a3FDECB9D5b218d02555a8Baf332E5B740d5);
-
-        newPool = _pools[_poolPairsCount++];
-        newPool.sellToken = 0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8; // USDC
-        newPool.buyToken = 0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F; // FRAX
-        newPool.dexName = "curve";
-        newPool.pools = _curPool;
-
-        _curPool[0] = bytes20(0x960ea3e3C7FB317332d990873d354E18d7645590);
-
-        newPool = _pools[_poolPairsCount++];
-        newPool.sellToken = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1; // WETH
-        newPool.buyToken = 0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9; // USDT
+        newPool.sellToken = 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174;
+        newPool.buyToken = 0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063;
         newPool.dexName = "curve";
         newPool.pools = _curPool;
     }

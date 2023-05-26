@@ -9,8 +9,8 @@ abstract contract Fees {
 
     constructor() {
         Types.FeePair storage newFee = _fees[_feePairsCount++];
-        newFee.sellToken = 0x040d1EdC9569d4Bab2D15287Dc5A4F10F56a56B8; // DAI
-        newFee.buyToken = 0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8; // USDC
+        newFee.sellToken = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619; // DAI
+        newFee.buyToken = 0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B; // USDC
         newFee.dexName = "uniV3";
         newFee.fee = 500;
     }
