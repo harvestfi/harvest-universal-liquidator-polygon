@@ -96,6 +96,36 @@ abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, Cros
                 ++i;
             }
         }
+
+        for (uint256 i; i < _multiTokenPairCount;) {
+            uint256 requiredDex = _multiTokenPairs[i].dexSetup.length;
+
+            for (uint256 j; j < requiredDex;) {
+                bytes32 dexId = _dexesByName[_multiTokenPairs[i].dexSetup[j].dexName].id;
+                _universalLiquidatorRegistry.setPath(dexId, _multiTokenPairs[i].dexSetup[j].paths);
+                unchecked {
+                    ++j;
+                }
+            }
+            unchecked {
+                ++i;
+            }
+        }
+
+        for (uint256 i; i < _crossDexTokenPairCount;) {
+            uint256 requiredDex = _crossDexTokenPairs[i].dexSetup.length;
+
+            for (uint256 j; j < requiredDex;) {
+                bytes32 dexId = _dexesByName[_crossDexTokenPairs[i].dexSetup[j].dexName].id;
+                _universalLiquidatorRegistry.setPath(dexId, _crossDexTokenPairs[i].dexSetup[j].paths);
+                unchecked {
+                    ++j;
+                }
+            }
+            unchecked {
+                ++i;
+            }
+        }
     }
 
     function _setupPools() internal {
