@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
+// import test base and helpers.
 import "forge-std/Test.sol";
 
 import "../src/core/UniversalLiquidator.sol";
@@ -19,7 +20,16 @@ import "./config/Paths.cross.t.sol";
 import "./config/Pools.t.sol";
 import "./config/Fees.t.sol";
 
-abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, CrossDexSwapPaths, Pools, Fees, EnvVariables {
+abstract contract AdvancedFixture is
+    Test,
+    SingleSwapPaths,
+    MultiSwapPaths,
+    CrossDexSwapPaths,
+    Pools,
+    Fees,
+    EnvVariables,
+    Types
+{
     uint256 _polygonFork;
 
     UniversalLiquidator internal _universalLiquidator;
@@ -31,7 +41,7 @@ abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, Cros
     CurveDex internal _curveDex;
 
     string[] internal _dexes;
-    mapping(string => Types.Dex) internal _dexesByName;
+    mapping(string => Dex) internal _dexesByName;
     address[] internal _intermediateTokens = [
         0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619, // WETH
         0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270, // WMATIC
@@ -40,6 +50,7 @@ abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, Cros
     ];
 
     constructor() {
+        startHoax(EnvVariables._governance);
         // fork testing environment
         _polygonFork = vm.createFork(_POLYGON_RPC_URL);
         vm.selectFork(_polygonFork);
@@ -47,85 +58,29 @@ abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, Cros
         _universalLiquidatorRegistry = new UniversalLiquidatorRegistry();
         _universalLiquidator = new UniversalLiquidator();
         _universalLiquidator.setPathRegistry(address(_universalLiquidatorRegistry));
-
-        _setupDexes();
-        // setup intermediate tokens
-        _universalLiquidatorRegistry.setIntermediateToken(_intermediateTokens);
-        // setup paths
-        _setupPaths();
-        // setup fees
-        _setupFees();
-        // setup pools
-        _setupPools();
+        vm.stopPrank();
     }
 
     function _setupDexes() internal {
         _uniV3Dex = new UniV3Dex();
         _dexes.push("uniV3");
-        _dexesByName["uniV3"] = Types.Dex(address(_uniV3Dex), bytes32(bytes("uniV3")));
+        _dexesByName["uniV3"] = Dex(address(_uniV3Dex), bytes32(bytes("uniV3")));
         _universalLiquidatorRegistry.addDex(bytes32(bytes("uniV3")), address(_uniV3Dex));
 
         _balancerDex = new BalancerDex();
         _dexes.push("balancer");
-        _dexesByName["balancer"] = Types.Dex(address(_balancerDex), bytes32(bytes("balancer")));
+        _dexesByName["balancer"] = Dex(address(_balancerDex), bytes32(bytes("balancer")));
         _universalLiquidatorRegistry.addDex(bytes32(bytes("balancer")), address(_balancerDex));
 
         _sushiswapDex = new SushiswapDex();
         _dexes.push("sushi");
-        _dexesByName["sushi"] = Types.Dex(address(_sushiswapDex), bytes32(bytes("sushi")));
+        _dexesByName["sushi"] = Dex(address(_sushiswapDex), bytes32(bytes("sushi")));
         _universalLiquidatorRegistry.addDex(bytes32(bytes("sushi")), address(_sushiswapDex));
 
         _curveDex = new CurveDex();
         _dexes.push("curve");
-        _dexesByName["curve"] = Types.Dex(address(_curveDex), bytes32(bytes("curve")));
+        _dexesByName["curve"] = Dex(address(_curveDex), bytes32(bytes("curve")));
         _universalLiquidatorRegistry.addDex(bytes32(bytes("curve")), address(_curveDex));
-    }
-
-    function _setupPaths() internal {
-        for (uint256 i; i < _singleTokenPairCount;) {
-            uint256 requiredDex = _singleTokenPairs[i].dexSetup.length;
-
-            for (uint256 j; j < requiredDex;) {
-                bytes32 dexId = _dexesByName[_singleTokenPairs[i].dexSetup[j].dexName].id;
-                _universalLiquidatorRegistry.setPath(dexId, _singleTokenPairs[i].dexSetup[j].paths);
-                unchecked {
-                    ++j;
-                }
-            }
-            unchecked {
-                ++i;
-            }
-        }
-
-        for (uint256 i; i < _multiTokenPairCount;) {
-            uint256 requiredDex = _multiTokenPairs[i].dexSetup.length;
-
-            for (uint256 j; j < requiredDex;) {
-                bytes32 dexId = _dexesByName[_multiTokenPairs[i].dexSetup[j].dexName].id;
-                _universalLiquidatorRegistry.setPath(dexId, _multiTokenPairs[i].dexSetup[j].paths);
-                unchecked {
-                    ++j;
-                }
-            }
-            unchecked {
-                ++i;
-            }
-        }
-
-        for (uint256 i; i < _crossDexTokenPairCount;) {
-            uint256 requiredDex = _crossDexTokenPairs[i].dexSetup.length;
-
-            for (uint256 j; j < requiredDex;) {
-                bytes32 dexId = _dexesByName[_crossDexTokenPairs[i].dexSetup[j].dexName].id;
-                _universalLiquidatorRegistry.setPath(dexId, _crossDexTokenPairs[i].dexSetup[j].paths);
-                unchecked {
-                    ++j;
-                }
-            }
-            unchecked {
-                ++i;
-            }
-        }
     }
 
     function _setupPools() internal {
