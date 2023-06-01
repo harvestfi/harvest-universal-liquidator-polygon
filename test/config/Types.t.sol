@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-library Types {
+abstract contract Types {
     struct Dex {
         address addr;
         bytes32 id;
