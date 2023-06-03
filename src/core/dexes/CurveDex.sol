@@ -22,7 +22,7 @@ contract CurveDex is Ownable, ILiquidityDex, CurveDexStorage {
     function doSwap(uint256 _sellAmount, uint256 _minBuyAmount, address _receiver, address[] memory _path)
         external
         override
-        returns (uint256)
+        returns (uint256 receiveAmt)
     {
         uint256 sellAmount = _sellAmount;
         uint256 minBuyAmount;
@@ -41,7 +41,7 @@ contract CurveDex is Ownable, ILiquidityDex, CurveDexStorage {
             address buyToken = _path[idx + 1];
             IERC20(sellToken).safeIncreaseAllowance(Addresses.curveRouter, sellAmount);
 
-            ICurveRegistryExchange(Addresses.curveRouter).exchange(
+            receiveAmt = ICurveRegistryExchange(Addresses.curveRouter).exchange(
                 _pool[sellToken][buyToken], sellToken, buyToken, sellAmount, minBuyAmount, receiver
             );
 
