@@ -35,7 +35,7 @@ jobs:
         uses: onbjerg/foundry-toolchain@v1
         with:
           version: nightly
-          
+
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v1.3.0
         with:
@@ -44,6 +44,9 @@ jobs:
           envkey_ETHERSCAN_API: ${{ secrets.ETHERSCAN_API }}
           file_name: .env
           fail_on_empty: true
+
+      - name: Run CASH deployment script
+        run:
 
       - name: Run tests
         run: forge test --gas-report
