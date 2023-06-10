@@ -1,0 +1,31 @@
+{
+  "<template-for-new-network>": {
+    "UniversalLiquidator": "",
+    "UniversalLiquidatorRegistry": "",
+    "UniV3Dex": "",
+    "BalancerDex": "",
+    "SushiswapDex": "",
+    "CurveDex": "",
+    "<new-address-item-to-store>": ""
+  },
+  "local": {
+    "UniversalLiquidator": "0x07f1a0405f099b3d58bb4e657fde9890c7bc2c27",
+    "UniversalLiquidatorRegistry": "0x04ad03608bddb1744a19e20d61b63d396f698a21",
+    "UniV3Dex": {
+      "address": "0xf25186b5081ff5ce73482ad761db0eb0d25abfbf",
+      "id": "uniV3"
+    },
+    "BalancerDex": {
+      "address": "0x9fbda871d559710256a2502a2517b794b482db40",
+      "id": "balancer"
+    },
+    "SushiswapDex": {
+      "address": "0x30753e4a8aad7f8597332e813735def5dd395028",
+      "id": "sushi"
+    },
+    "CurveDex": {
+      "address": "0xaa588d3737b611bafd7bd713445b314bd453a5c8",
+      "id": "curve"
+    }
+  }
+}
