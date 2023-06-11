@@ -47,6 +47,18 @@ then
     then
     ARGS="$ARGS --verify"
     fi
+
+    echo "Gas Estimate Multiplier? (Default 130)..."
+    read gas_multiplier
+    echo ""
+
+    if [ "$gas_multiplier" = "" ]
+    then 
+    gas_multiplier=130
+    fi
+
+    ARGS="$ARGS --gas-estimate-multiplier $gas_multiplier"
+    
 else
     ARGS="--fork-url http://localhost:8545 --broadcast"
 fi
@@ -78,6 +90,12 @@ if [ "$ADD_ENVS" != "" ]; then
 fi
 
 forge script $1 $ARGS
-unset $ADD_ENVS
+
+if [ "$1" == "script/Dex.s.sol" ]; 
+then
+  unset "DEX DEX_NAME"
+fi
+
+unset "NETWORK"
 
 echo "Script ran successfully 🎉🎉🎉"
