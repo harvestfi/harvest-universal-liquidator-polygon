@@ -27,5 +27,25 @@
       "address": "0xaa588d3737b611bafd7bd713445b314bd453a5c8",
       "id": "curve"
     }
+  },
+  "polygon-mumbai": {
+    "UniversalLiquidator": "0xa723048eae73972af0651ec4ed03660e99e57168",
+    "UniversalLiquidatorRegistry": "0xb0bae2d0180aa1cd4e0aab79ce8bfc2ad070c0a6",
+    "UniV3Dex": {
+      "address": "0x95d285aa64e376535a7cc19bcd04fea82479a955",
+      "id": "uniV3"
+    },
+    "BalancerDex": {
+      "address": "0xf1737c7045be5d3d5dc4357088125f7146ffcd72",
+      "id": "balancer"
+    },
+    "SushiswapDex": {
+      "address": "0xf272f12d252bde8ae41297ab1d62cc50702a167a",
+      "id": "sushi"
+    },
+    "CurveDex": {
+      "address": "0x914516e20ded6dd228516091a4a50090a72e29ec",
+      "id": "curve"
+    }
   }
 }
