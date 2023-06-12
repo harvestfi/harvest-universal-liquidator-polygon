@@ -102,7 +102,7 @@ contract UniversalLiquidatorRegistryTest is AdvancedFixture {
         startHoax(_governance);
         // deploy dex
         _uniV3Dex = new UniV3Dex();
-        _dexesByName["uniV3"] = Dex(address(_uniV3Dex), bytes32(bytes("uniV3")));
+        _dexesByName["UniV3Dex"] = Dex(address(_uniV3Dex), bytes32(bytes("uniV3")));
         // add dex
         _universalLiquidatorRegistry.addDex(bytes32(bytes("uniV3")), address(makeAddr("mockDex")));
         // set path
@@ -186,7 +186,7 @@ contract UniversalLiquidatorRegistryTest is AdvancedFixture {
         startHoax(_governance);
         // deploy dex
         _uniV3Dex = new UniV3Dex();
-        _dexesByName["uniV3"] = Dex(address(_uniV3Dex), bytes32(bytes("uniV3")));
+        _dexesByName["UniV3Dex"] = Dex(address(_uniV3Dex), bytes32(bytes("uniV3")));
         // add dex
         _universalLiquidatorRegistry.addDex(bytes32(bytes("uniV3")), address(makeAddr("mockDex")));
         assertEq(_universalLiquidatorRegistry.dexesInfo(bytes32(bytes("uniV3"))), address(makeAddr("mockDex")));
