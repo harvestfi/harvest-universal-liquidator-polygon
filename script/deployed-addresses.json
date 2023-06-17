@@ -9,8 +9,8 @@
     "<new-address-item-to-store>": ""
   },
   "local": {
-    "UniversalLiquidator": "0x07f1a0405f099b3d58bb4e657fde9890c7bc2c27",
-    "UniversalLiquidatorRegistry": "0x04ad03608bddb1744a19e20d61b63d396f698a21",
+    "UniversalLiquidator": "0xf12b5dd4ead5f743c6baa640b0216200e89b60da",
+    "UniversalLiquidatorRegistry": "0x8cdaf0cd259887258bc13a92c0a6da92698644c0",
     "UniV3Dex": {
       "address": "0xf25186b5081ff5ce73482ad761db0eb0d25abfbf",
       "id": "uniV3"
