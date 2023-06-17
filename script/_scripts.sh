@@ -23,7 +23,7 @@ fi
 
 if [ "$1" = "script/Path.s.sol" ] || [ "$1" = "script/Pool.s.sol" ] || [ "$1" = "script/Fee.s.sol" ];
 then
-  echo "Setup with which file?"
+  echo "Setup with which file? (Ex: Paths.0000.json)"
   read file
   echo ""
 
