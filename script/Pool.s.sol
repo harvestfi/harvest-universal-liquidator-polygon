@@ -4,12 +4,19 @@ pragma solidity 0.8.17;
 import "forge-std/Script.sol";
 import "forge-std/StdJson.sol";
 
-import "./config/Pools.sol";
+struct PoolPair {
+    address buyToken;
+    string description;
+    string dexName;
+    bytes32[] pools;
+    address sellToken;
+}
 
-contract PoolScript is Script, Pools {
+contract PoolScript is Script {
     using stdJson for string;
 
     string _json;
+    string _config;
 
     function run() public {
         vm.startBroadcast();
@@ -19,7 +26,8 @@ contract PoolScript is Script, Pools {
     }
 
     function deploy() public {
-        for (uint256 i; i < _poolPairsCount;) {
+        PoolPair[] memory _pools = abi.decode(_config.parseRaw(""), (PoolPair[]));
+        for (uint256 i; i < _pools.length;) {
             string memory dexName = _pools[i].dexName;
             address _dexAddr = _json.readAddress(string.concat(".", vm.envString("NETWORK"), ".", dexName, ".address"));
             if (keccak256(bytes(dexName)) == keccak256(bytes("BalancerDex"))) {
@@ -38,7 +46,7 @@ contract PoolScript is Script, Pools {
                         "setPool(address,address,address)",
                         _pools[i].sellToken,
                         _pools[i].buyToken,
-                        address(bytes20(_pools[i].pools[0]))
+                        address(uint160(uint256(_pools[i].pools[0])))
                     )
                 );
                 if (!success) {
@@ -57,8 +65,7 @@ contract PoolScript is Script, Pools {
      * @notice Check if the key exist in deployed-addresses.json file
      */
     function preDeploy() public {
-        string memory root = vm.projectRoot();
-        string memory path = string.concat(root, "/script/deployed-addresses.json");
-        _json = vm.readFile(path);
+        _json = vm.readFile(string.concat(vm.projectRoot(), "/script/deployed-addresses.json"));
+        _config = vm.readFile(string.concat(vm.projectRoot(), "/script/config/", vm.envString("SETUP_FILE")));
     }
 }

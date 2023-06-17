@@ -6,13 +6,24 @@ import "forge-std/StdJson.sol";
 
 import "../src/interfaces/IUniversalLiquidatorRegistry.sol";
 
-import "./config/Paths.sol";
+struct DexSetting {
+    string dexName;
+    address[] paths;
+}
 
-contract PathScript is Script, Paths {
+struct TokenPair {
+    address buyToken;
+    string description;
+    DexSetting[] dexSetup;
+    address sellToken;
+}
+
+contract PathScript is Script {
     using stdJson for string;
 
     address _registry;
     string _json;
+    string _config;
 
     function run() public {
         vm.startBroadcast();
@@ -22,7 +33,8 @@ contract PathScript is Script, Paths {
     }
 
     function deploy() public {
-        for (uint256 i; i < _tokenPairCount;) {
+        TokenPair[] memory _tokenPairs = abi.decode(_config.parseRaw(""), (TokenPair[]));
+        for (uint256 i; i < _tokenPairs.length;) {
             for (uint256 j; j < _tokenPairs[i].dexSetup.length;) {
                 string memory _dexName =
                     _json.readString(string.concat(".", vm.envString("NETWORK"), ".", _tokenPairs[i].dexSetup[j].dexName, ".id"));
@@ -43,10 +55,9 @@ contract PathScript is Script, Paths {
      * @notice Check if the key exist in deployed-addresses.json file
      */
     function preDeploy() public {
-        string memory root = vm.projectRoot();
-        string memory path = string.concat(root, "/script/deployed-addresses.json");
-        _json = vm.readFile(path);
+        _json = vm.readFile(string.concat(vm.projectRoot(), "/script/deployed-addresses.json"));
+        _config = vm.readFile(string.concat(vm.projectRoot(), "/script/config/", vm.envString("SETUP_FILE")));
 
-        _registry = _json.readAddress(string.concat(string.concat(".", vm.envString("NETWORK")), ".UniversalLiquidatorRegistry"));
+        _registry = _json.readAddress(string.concat(".", vm.envString("NETWORK"), ".UniversalLiquidatorRegistry"));
     }
 }
