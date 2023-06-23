@@ -105,3 +105,9 @@ Which dex do you want to deploy? (Ex: UniV3Dex, the contract name)
 ```bash
 Which name do you want to represent the dex? (Ex: uniV3)
 ```
+
+(With Path.s.sol, Pool.s.sol, or Fee.s.sol) Determine the config parameters file for setting up. There are three example files for reference: _Paths.0000.json_, _Pools.0000.json_, and _Fees.0000.json_.
+
+```bash
+Setup with which file? (Ex: Paths.0000.json)
+```

@@ -1,0 +1,93 @@
+[
+  {
+    "sellToken": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+    "buyToken": "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B",
+    "dexSetup": [
+      {
+        "dexName": "UniV3Dex",
+        "paths": [
+          "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+          "0xB0B195aEFA3650A6908f15CdaC7D92F8a5791B0B"
+        ]
+      }
+    ],
+    "description": "WETH -> BOB"
+  },
+  {
+    "sellToken": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+    "buyToken": "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+    "dexSetup": [
+      {
+        "dexName": "BalancerDex",
+        "paths": [
+          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4"
+        ]
+      }
+    ],
+    "description": "WMATIC -> stMATIC"
+  },
+  {
+    "sellToken": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+    "buyToken": "0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a",
+    "dexSetup": [
+      {
+        "dexName": "SushiswapDex",
+        "paths": [
+          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a"
+        ]
+      }
+    ],
+    "description": "WMATIC -> SUSHI"
+  },
+  {
+    "sellToken": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    "buyToken": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+    "dexSetup": [
+      {
+        "dexName": "CurveDex",
+        "paths": [
+          "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+          "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
+        ]
+      }
+    ],
+    "description": "USDC -> DAI"
+  },
+  {
+    "sellToken": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    "buyToken": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+    "dexSetup": [
+      {
+        "dexName": "CurveDex",
+        "paths": [
+          "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+          "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
+        ]
+      }
+    ],
+    "description": "USDC -> DAI"
+  },
+  {
+    "sellToken": "0xb33EaAd8d922B1083446DC23f610c2567fB5180f",
+    "buyToken": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+    "dexSetup": [
+      {
+        "dexName": "UniV3Dex",
+        "paths": [
+          "0xb33EaAd8d922B1083446DC23f610c2567fB5180f",
+          "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
+        ]
+      },
+      {
+        "dexName": "CurveDex",
+        "paths": [
+          "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+          "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"
+        ]
+      }
+    ],
+    "description": "(UniV3) UNI -> USDC -> USDT (Curve)"
+  }
+]
