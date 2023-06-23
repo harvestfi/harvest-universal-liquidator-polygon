@@ -47,5 +47,20 @@
       "address": "0x914516e20ded6dd228516091a4a50090a72e29ec",
       "id": "curve"
     }
+  },
+  "polygon-mainnet": {
+    "UniversalLiquidator": "0x612cc8d1f3f4620cdc544ca60580110d81a4ba87",
+    "UniversalLiquidatorRegistry": "0xfaa8257a33d460a077a09fc10347423865af76b3",
+    "UniV3Dex": {
+      "address": "0x2dbfeaf014a4e3cd09af0dd597ca56b1821cfd3f",
+      "id": "uniV3"
+    },
+    "QuickswapDex": {
+      "address": "0xdd13b84aa5bbdd90b0af0f224809cee435763ba8",
+      "id": "quickswap"
+    },
+    "BalancerDex": "",
+    "SushiswapDex": "",
+    "CurveDex": ""
   }
 }
