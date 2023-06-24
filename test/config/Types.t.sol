@@ -15,7 +15,6 @@ abstract contract Types {
     struct TokenPair {
         address sellToken;
         address buyToken;
-        address intermediateToken;
         address whale;
         DexSetting[] dexSetup;
     }

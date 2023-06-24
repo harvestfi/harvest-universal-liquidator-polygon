@@ -63,23 +63,23 @@ abstract contract AdvancedFixture is
 
     function _setupDexes() internal {
         _uniV3Dex = new UniV3Dex();
-        _dexes.push("uniV3");
-        _dexesByName["uniV3"] = Dex(address(_uniV3Dex), bytes32(bytes("uniV3")));
+        _dexes.push("UniV3Dex");
+        _dexesByName["UniV3Dex"] = Dex(address(_uniV3Dex), bytes32(bytes("uniV3")));
         _universalLiquidatorRegistry.addDex(bytes32(bytes("uniV3")), address(_uniV3Dex));
 
         _balancerDex = new BalancerDex();
-        _dexes.push("balancer");
-        _dexesByName["balancer"] = Dex(address(_balancerDex), bytes32(bytes("balancer")));
+        _dexes.push("BalancerDex");
+        _dexesByName["BalancerDex"] = Dex(address(_balancerDex), bytes32(bytes("balancer")));
         _universalLiquidatorRegistry.addDex(bytes32(bytes("balancer")), address(_balancerDex));
 
         _sushiswapDex = new SushiswapDex();
-        _dexes.push("sushi");
-        _dexesByName["sushi"] = Dex(address(_sushiswapDex), bytes32(bytes("sushi")));
+        _dexes.push("SushiswapDex");
+        _dexesByName["SushiswapDex"] = Dex(address(_sushiswapDex), bytes32(bytes("sushi")));
         _universalLiquidatorRegistry.addDex(bytes32(bytes("sushi")), address(_sushiswapDex));
 
         _curveDex = new CurveDex();
-        _dexes.push("curve");
-        _dexesByName["curve"] = Dex(address(_curveDex), bytes32(bytes("curve")));
+        _dexes.push("CurveDex");
+        _dexesByName["CurveDex"] = Dex(address(_curveDex), bytes32(bytes("curve")));
         _universalLiquidatorRegistry.addDex(bytes32(bytes("curve")), address(_curveDex));
     }
 
@@ -87,7 +87,7 @@ abstract contract AdvancedFixture is
         for (uint256 i; i < _poolPairsCount;) {
             string memory dexName = _pools[i].dexName;
             address dexAddress = _dexesByName[_pools[i].dexName].addr;
-            if (keccak256(bytes(dexName)) == keccak256(bytes("balancer"))) {
+            if (keccak256(bytes(dexName)) == keccak256(bytes("BalancerDex"))) {
                 (bool success, bytes memory data) = dexAddress.call(
                     abi.encodeWithSignature(
                         "setPool(address,address,bytes32[])", _pools[i].sellToken, _pools[i].buyToken, _pools[i].pools
@@ -97,7 +97,7 @@ abstract contract AdvancedFixture is
                     console2.log("curve setPool failed: ");
                     console2.logBytes(data);
                 }
-            } else if (keccak256(bytes(dexName)) == keccak256(bytes("curve"))) {
+            } else if (keccak256(bytes(dexName)) == keccak256(bytes("CurveDex"))) {
                 (bool success, bytes memory data) = dexAddress.call(
                     abi.encodeWithSignature(
                         "setPool(address,address,address)",
@@ -121,7 +121,7 @@ abstract contract AdvancedFixture is
         for (uint256 i; i < _feePairsCount;) {
             string memory dexName = _fees[i].dexName;
             address dexAddress = _dexesByName[_fees[i].dexName].addr;
-            if (keccak256(bytes(dexName)) == keccak256(bytes("uniV3"))) {
+            if (keccak256(bytes(dexName)) == keccak256(bytes("UniV3Dex"))) {
                 (bool success, bytes memory data) = dexAddress.call(
                     abi.encodeWithSignature("setFee(address,address,uint24)", _fees[i].sellToken, _fees[i].buyToken, _fees[i].fee)
                 );

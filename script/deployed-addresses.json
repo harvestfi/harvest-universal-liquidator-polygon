@@ -1,0 +1,51 @@
+{
+  "<template-for-new-network>": {
+    "UniversalLiquidator": "",
+    "UniversalLiquidatorRegistry": "",
+    "UniV3Dex": "",
+    "BalancerDex": "",
+    "SushiswapDex": "",
+    "CurveDex": "",
+    "<new-address-item-to-store>": ""
+  },
+  "local": {
+    "UniversalLiquidator": "0xf12b5dd4ead5f743c6baa640b0216200e89b60da",
+    "UniversalLiquidatorRegistry": "0x8cdaf0cd259887258bc13a92c0a6da92698644c0",
+    "UniV3Dex": {
+      "address": "0xf25186b5081ff5ce73482ad761db0eb0d25abfbf",
+      "id": "uniV3"
+    },
+    "BalancerDex": {
+      "address": "0x9fbda871d559710256a2502a2517b794b482db40",
+      "id": "balancer"
+    },
+    "SushiswapDex": {
+      "address": "0x30753e4a8aad7f8597332e813735def5dd395028",
+      "id": "sushi"
+    },
+    "CurveDex": {
+      "address": "0xaa588d3737b611bafd7bd713445b314bd453a5c8",
+      "id": "curve"
+    }
+  },
+  "polygon-mumbai": {
+    "UniversalLiquidator": "0xa723048eae73972af0651ec4ed03660e99e57168",
+    "UniversalLiquidatorRegistry": "0xb0bae2d0180aa1cd4e0aab79ce8bfc2ad070c0a6",
+    "UniV3Dex": {
+      "address": "0x95d285aa64e376535a7cc19bcd04fea82479a955",
+      "id": "uniV3"
+    },
+    "BalancerDex": {
+      "address": "0xf1737c7045be5d3d5dc4357088125f7146ffcd72",
+      "id": "balancer"
+    },
+    "SushiswapDex": {
+      "address": "0xf272f12d252bde8ae41297ab1d62cc50702a167a",
+      "id": "sushi"
+    },
+    "CurveDex": {
+      "address": "0x914516e20ded6dd228516091a4a50090a72e29ec",
+      "id": "curve"
+    }
+  }
+}

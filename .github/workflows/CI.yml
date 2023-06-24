@@ -35,13 +35,13 @@ jobs:
         uses: onbjerg/foundry-toolchain@v1
         with:
           version: nightly
-          
+
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v1.3.0
         with:
           envkey_MNEMONIC: ${{ secrets.MNEMONIC }}
           envkey_ALCHEMEY_KEY: ${{ secrets.ALCHEMEY_KEY }}
-          envkey_ETHERSCAN_API: ${{ secrets.ETHERSCAN_API }}
+          envkey_ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
           file_name: .env
           fail_on_empty: true
 
