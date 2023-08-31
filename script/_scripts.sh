@@ -73,7 +73,7 @@ else
 fi
 
 ADD_ENVS="$ADD_ENVS NETWORK=$network"
-ARGS="$ARGS --private-key $PRIVATE_KEY"
+ARGS="$ARGS --private-key $PRIVATE_KEY --legacy"
 
 echo "Profile? [default/optimized]..."
 read profile

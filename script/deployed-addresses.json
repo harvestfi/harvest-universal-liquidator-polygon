@@ -59,7 +59,10 @@
       "address": "0xdd13b84aa5bbdd90b0af0f224809cee435763ba8",
       "id": "quickswap"
     },
-    "BalancerDex": "",
+    "BalancerDex": {
+      "address": "0x0dbed88aeda7526a8ba3a36e1a3de350eb154905",
+      "id": "balancer"
+    },
     "SushiswapDex": "",
     "CurveDex": ""
   }
