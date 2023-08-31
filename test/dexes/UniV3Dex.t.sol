@@ -7,7 +7,7 @@ import "../../src/core/dexes/UniV3Dex.sol";
 // import test base and helpers.
 import {AdvancedFixture} from "../AdvancedFixture.t.sol";
 
-contract CurveDexTest is AdvancedFixture {
+contract UniV3DexTest is AdvancedFixture {
     function testSetPoolFee() public {
         // deploy dex
         startHoax(_governance);
