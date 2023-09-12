@@ -38,7 +38,9 @@ contract DexScript is Script {
         } else if (keccak256(bytes(vm.envString("DEX"))) == keccak256(bytes("BalancerDex"))) {
             BalancerDex balancerDex = new BalancerDex();
             console.log("BalancerDex: ", address(balancerDex));
-            IUniversalLiquidatorRegistry(_registry).changeDexAddress(keccak256(bytes(vm.envString("DEX_NAME"))), address(balancerDex));
+            IUniversalLiquidatorRegistry(_registry).changeDexAddress(
+                keccak256(bytes(vm.envString("DEX_NAME"))), address(balancerDex)
+            );
             _newDex = address(balancerDex);
         } else if (keccak256(bytes(vm.envString("DEX"))) == keccak256(bytes("SushiswapDex"))) {
             SushiswapDex sushiswapDex = new SushiswapDex();
