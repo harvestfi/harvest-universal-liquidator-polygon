@@ -12,6 +12,7 @@ import "../src/core/dexes/BalancerDex.sol";
 import "../src/core/dexes/SushiswapDex.sol";
 import "../src/core/dexes/CurveDex.sol";
 import "../src/core/dexes/QuickswapDex.sol";
+import "../src/core/dexes/PearlDex.sol";
 
 contract DexScript is Script {
     using stdJson for string;
@@ -54,6 +55,11 @@ contract DexScript is Script {
             console.log("QuickswapDex: ", address(quickswapDex));
             IUniversalLiquidatorRegistry(_registry).addDex(keccak256(bytes(vm.envString("DEX_NAME"))), address(quickswapDex));
             _newDex = address(quickswapDex);
+        } else if (keccak256(bytes(vm.envString("DEX"))) == keccak256(bytes("PearlDex"))) {
+            PearlDex pearlDex = new PearlDex();
+            console.log("PearlDex: ", address(pearlDex));
+            IUniversalLiquidatorRegistry(_registry).addDex(keccak256(bytes(vm.envString("DEX_NAME"))), address(pearlDex));
+            _newDex = address(pearlDex);
         } else {
             console.log("Dex not found");
         }

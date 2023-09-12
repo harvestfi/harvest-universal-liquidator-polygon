@@ -64,6 +64,10 @@
       "id": "balancer"
     },
     "SushiswapDex": "",
-    "CurveDex": ""
+    "CurveDex": "",
+    "PearlDex": {
+      "address": "0x1eba8cf895d78b9ce7fe2645601c82f9a1d86a87",
+      "id": "pearl"
+    }
   }
 }
