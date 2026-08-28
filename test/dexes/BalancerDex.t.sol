@@ -38,5 +38,4 @@ contract BalancerDexTest is AdvancedFixture {
     //         }
     //     }
     // }
-
-    }
+}

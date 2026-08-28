@@ -20,8 +20,9 @@ contract CurveDexTest is AdvancedFixture {
 
     function testCannotSetPoolIdFromNonOwner() public {
         // deploy dex
-        vm.prank(_governance);
+        vm.startPrank(_governance);
         _curveDex = new CurveDex();
+        vm.stopPrank();
         vm.expectRevert("Ownable: caller is not the owner");
         _curveDex.setPool(_pools[1].sellToken, _pools[1].buyToken, address(bytes20(_pools[1].pools[0])));
         vm.prank(_governance);

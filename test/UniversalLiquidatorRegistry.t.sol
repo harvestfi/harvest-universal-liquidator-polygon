@@ -175,8 +175,9 @@ contract UniversalLiquidatorRegistryTest is AdvancedFixture {
 
     function testCannotAddNewDexFromNonOwner() public {
         // deploy dex
-        vm.prank(_governance);
+        vm.startPrank(_governance);
         _uniV3Dex = new UniV3Dex();
+        vm.stopPrank();
         // add dex
         vm.expectRevert("Ownable: caller is not the owner");
         _universalLiquidatorRegistry.addDex(bytes32(bytes("uniV3")), address(_uniV3Dex));

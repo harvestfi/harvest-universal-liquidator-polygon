@@ -13,7 +13,8 @@ import {AdvancedFixture} from "./AdvancedFixture.t.sol";
 contract UniversalLiquidatorTest is AdvancedFixture {
     address _farmer;
 
-    constructor() {
+    function setUp() public override {
+        super.setUp();
         startHoax(_governance);
         _setupDexes();
         // setup intermediate tokens
@@ -23,9 +24,6 @@ contract UniversalLiquidatorTest is AdvancedFixture {
         // setup pools
         _setupPools();
         vm.stopPrank();
-    }
-
-    function setUp() public {
         // mock farmer address
         _farmer = makeAddr("farmer");
     }
