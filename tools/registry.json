@@ -4,7 +4,7 @@
     "registry": "0xfaa8257a33d460a077a09fc10347423865af76b3",
     "universalLiquidator": "0x612cc8d1f3f4620cdc544ca60580110d81a4ba87",
     "owner": "0x6a74649aCFD7822ae8Fb78463a9f2192752E5Aa2",
-    "generatedAtBlock": 92812725,
+    "generatedAtBlock": 92818802,
     "intermediateTokens": [
         "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
         "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
@@ -117,27 +117,6 @@
         },
         {
             "sellToken": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
-            "buyToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-            "symbols": "COMP > WETH",
-            "dex": "sushi",
-            "path": [
-                "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
-                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
-            ]
-        },
-        {
-            "sellToken": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
-            "buyToken": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-            "symbols": "COMP > WETH > USDC",
-            "dex": "sushi",
-            "path": [
-                "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
-                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-                "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
-            ]
-        },
-        {
-            "sellToken": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
             "buyToken": "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
             "symbols": "COMP > WETH > USDT0",
             "dex": "uniV3",
@@ -145,6 +124,28 @@
                 "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
                 "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
                 "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
+            ]
+        },
+        {
+            "sellToken": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
+            "buyToken": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "symbols": "COMP > WPOL > USDC",
+            "dex": "uniV3Legacy",
+            "path": [
+                "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
+                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
+            ]
+        },
+        {
+            "sellToken": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
+            "buyToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+            "symbols": "COMP > WPOL > WETH",
+            "dex": "uniV3Legacy",
+            "path": [
+                "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
+                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
             ]
         },
         {
@@ -172,43 +173,45 @@
         },
         {
             "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-            "buyToken": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-            "symbols": "QUICK > USDC",
-            "dex": "quickswap",
-            "path": [
-                "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-                "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
-            ]
-        },
-        {
-            "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-            "buyToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-            "symbols": "QUICK > WETH",
-            "dex": "quickswap",
-            "path": [
-                "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
-            ]
-        },
-        {
-            "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-            "buyToken": "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
-            "symbols": "QUICK > WETH > WBTC",
-            "dex": "quickswap",
-            "path": [
-                "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-                "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"
-            ]
-        },
-        {
-            "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
             "buyToken": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
             "symbols": "QUICK > WPOL",
             "dex": "quickswap",
             "path": [
                 "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
                 "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
+            ]
+        },
+        {
+            "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
+            "buyToken": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "symbols": "QUICK > WPOL > USDC",
+            "dex": "quickswapLegacy",
+            "path": [
+                "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
+                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
+            ]
+        },
+        {
+            "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
+            "buyToken": "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
+            "symbols": "QUICK > WPOL > WBTC",
+            "dex": "quickswapLegacy",
+            "path": [
+                "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
+                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"
+            ]
+        },
+        {
+            "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
+            "buyToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+            "symbols": "QUICK > WPOL > WETH",
+            "dex": "quickswapLegacy",
+            "path": [
+                "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
+                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
             ]
         },
         {
@@ -286,26 +289,6 @@
         },
         {
             "sellToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-            "buyToken": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
-            "symbols": "WETH > COMP",
-            "dex": "sushi",
-            "path": [
-                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-                "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c"
-            ]
-        },
-        {
-            "sellToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-            "buyToken": "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
-            "symbols": "WETH > DAI",
-            "dex": "uniV3",
-            "path": [
-                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-                "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"
-            ]
-        },
-        {
-            "sellToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
             "buyToken": "0x4e3decbb3645551b8a19f0ea1678079fcb33fb4c",
             "symbols": "WETH > jEUR",
             "dex": "quickswapLegacy",
@@ -322,6 +305,16 @@
             "path": [
                 "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
                 "0xab0b2ddb9c7e440fac8e140a89c0dbcbf2d7bbff"
+            ]
+        },
+        {
+            "sellToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+            "buyToken": "0x236aa50979d5f3de3bd1eeb40e81137f22ab794b",
+            "symbols": "WETH > tBTC",
+            "dex": "uniV3Legacy",
+            "path": [
+                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+                "0x236aa50979d5f3de3bd1eeb40e81137f22ab794b"
             ]
         },
         {
@@ -346,6 +339,17 @@
         },
         {
             "sellToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+            "buyToken": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
+            "symbols": "WETH > USDC > COMP",
+            "dex": "uniV3Legacy",
+            "path": [
+                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+                "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+                "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c"
+            ]
+        },
+        {
+            "sellToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
             "buyToken": "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
             "symbols": "WETH > USDT0",
             "dex": "uniV3",
@@ -356,13 +360,13 @@
         },
         {
             "sellToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-            "buyToken": "0x236aa50979d5f3de3bd1eeb40e81137f22ab794b",
-            "symbols": "WETH > WBTC > tBTC",
-            "dex": "uniV3",
+            "buyToken": "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+            "symbols": "WETH > USDT0 > DAI",
+            "dex": "uniV3Legacy",
             "path": [
                 "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-                "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
-                "0x236aa50979d5f3de3bd1eeb40e81137f22ab794b"
+                "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
+                "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"
             ]
         },
         {
@@ -397,22 +401,23 @@
         },
         {
             "sellToken": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
-            "buyToken": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-            "symbols": "WPOL > USDC",
-            "dex": "uniV3",
-            "path": [
-                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
-                "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
-            ]
-        },
-        {
-            "sellToken": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
             "buyToken": "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
             "symbols": "WPOL > USDT0",
             "dex": "uniV3",
             "path": [
                 "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
                 "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
+            ]
+        },
+        {
+            "sellToken": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+            "buyToken": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "symbols": "WPOL > USDT0 > USDC",
+            "dex": "uniV3Legacy",
+            "path": [
+                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
+                "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
             ]
         },
         {
