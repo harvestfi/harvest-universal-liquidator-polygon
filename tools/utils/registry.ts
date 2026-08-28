@@ -2,6 +2,23 @@ import { BigNumber, Signer, Wallet, providers, utils } from "ethers";
 import fs from "fs";
 import path from "path";
 
+// hardhat.config loads .env for the hardhat repos; nothing does under plain
+// ts-node, so load it here. Existing environment variables still win.
+(() => {
+    for (const dir of [process.cwd(), path.resolve(__dirname, "../.."), path.resolve(__dirname, "../../..")]) {
+        const file = path.join(dir, ".env");
+        if (!fs.existsSync(file)) continue;
+        for (const line of fs.readFileSync(file, "utf8").split("\n")) {
+            const m = /^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/.exec(line);
+            if (!m) continue;
+            const key = m[1];
+            if (process.env[key] !== undefined) continue;
+            process.env[key] = m[2].trim().replace(/^(['"])(.*)\1$/, "$2");
+        }
+        break;
+    }
+})();
+
 export const MULTICALL3 = "0xcA11bde05977b3631167028862bE2a173976CA11";
 // Layouts differ between repos: the hardhat ones keep this in helpers/, the
 // Foundry ones under tools/. Resolve either, and let an env var win.
@@ -185,13 +202,51 @@ export function provider(): providers.Provider {
     const url = process.env.REGISTRY_RPC_URL;
     if (url) return new providers.JsonRpcProvider(url);
     const hh = hardhatEthers();
-    if (!hh) throw new Error("set REGISTRY_RPC_URL (no hardhat runtime to fall back to)");
+    if (!hh) throw new Error("set REGISTRY_RPC_URL, in .env or the environment");
     const fallback: any = hh.provider;
     if (!warned && String(fallback?.connection?.url ?? "").includes(THROTTLED)) {
         warned = true;
         console.log(`note: ${THROTTLED} rate-limits heavily; set REGISTRY_RPC_URL for a faster, steadier run\n`);
     }
     return fallback;
+}
+
+/**
+ * Send with headroom over the estimate. ethers uses eth_estimateGas verbatim,
+ * and on Arbitrum that estimate is routinely a little under what execution
+ * ends up needing, which shows up as an out-of-gas with gasUsed == gasLimit.
+ */
+/** Dig the node's own words out of an ethers error, which buries them. */
+export function errText(e: any): string {
+    const node = e?.error?.message ?? e?.data?.message;
+    if (node) return String(node);
+    if (e?.body) {
+        try { return String(JSON.parse(e.body)?.error?.message ?? e.body).slice(0, 200); } catch { /* not json */ }
+    }
+    return String(e?.shortMessage ?? e?.reason ?? e?.message ?? e).split("\n")[0];
+}
+
+export async function sendTx(sender: Signer, tx: { to: string; data: string }) {
+    const estimate = await sender.estimateGas(tx);
+    const gasLimit = estimate.mul(15).div(10).add(25_000);
+
+    // ethers hardcodes a 1.5 gwei priority fee. Polygon's floor is 30, so every
+    // send is rejected as underpriced and surfaces only as "processing response
+    // error". Ask the node what it wants and take the higher of the two.
+    const fee: Record<string, BigNumber> = {};
+    try {
+        const provider: any = sender.provider;
+        const hinted = BigNumber.from(await provider.send("eth_maxPriorityFeePerGas", []));
+        const fd = await provider.getFeeData();
+        if (fd.maxFeePerGas && fd.maxPriorityFeePerGas) {
+            const tip = hinted.gt(fd.maxPriorityFeePerGas) ? hinted : fd.maxPriorityFeePerGas;
+            fee.maxPriorityFeePerGas = tip;
+            fee.maxFeePerGas = fd.maxFeePerGas.gt(tip) ? fd.maxFeePerGas.add(tip) : tip.mul(2);
+        }
+    } catch {
+        // node offers no hint, so ethers' own estimate stands
+    }
+    return sender.sendTransaction({ ...tx, gasLimit, ...fee });
 }
 
 /** Signer for the scripts that write. Reads and writes share one provider. */
