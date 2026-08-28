@@ -21,7 +21,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: stable
+          version: v1.5.1
       - name: Run forge fmt
         run: forge fmt --check
   test:
@@ -34,7 +34,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: stable
+          version: v1.5.1
 
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v1.3.0
