@@ -28,9 +28,7 @@ contract UniversalLiquidatorRegistry is Ownable, IUniversalLiquidatorRegistry, U
                     && paths[_intermediateTokens[idx]][_buyToken].dex != bytes32(0)
             ) {
                 // found the intermediateToken and intermediateDex
-                DataTypes.SwapInfo[] memory retPaths = new DataTypes.SwapInfo[](
-                    2
-                );
+                DataTypes.SwapInfo[] memory retPaths = new DataTypes.SwapInfo[](2);
                 retPaths[0] = DataTypes.SwapInfo(
                     dexesInfo[paths[_sellToken][_intermediateTokens[idx]].dex], paths[_sellToken][_intermediateTokens[idx]].paths
                 );

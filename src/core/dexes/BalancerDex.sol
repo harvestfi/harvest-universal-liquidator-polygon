@@ -27,9 +27,7 @@ contract BalancerDex is Ownable, ILiquidityDex, BalancerDexStorage {
         address sellToken = _path[0];
         address buyToken = _path[_path.length - 1];
 
-        IBVault.BatchSwapStep[] memory swaps = new IBVault.BatchSwapStep[](
-            _path.length - 1
-        );
+        IBVault.BatchSwapStep[] memory swaps = new IBVault.BatchSwapStep[](_path.length - 1);
 
         swaps[0].amount = _sellAmount;
         IAsset[] memory assets = new IAsset[](_path.length);
@@ -57,8 +55,8 @@ contract BalancerDex is Ownable, ILiquidityDex, BalancerDexStorage {
         IERC20(sellToken).safeIncreaseAllowance(Addresses.balancerVault, _sellAmount);
 
         return uint256(
-            -IBVault(Addresses.balancerVault).batchSwap(IBVault.SwapKind.GIVEN_IN, swaps, assets, funds, limits, block.timestamp)[_path
-                .length - 1]
+            -IBVault(Addresses.balancerVault)
+                .batchSwap(IBVault.SwapKind.GIVEN_IN, swaps, assets, funds, limits, block.timestamp)[_path.length - 1]
         );
     }
 

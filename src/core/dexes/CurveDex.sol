@@ -41,9 +41,8 @@ contract CurveDex is Ownable, ILiquidityDex, CurveDexStorage {
             address buyToken = _path[idx + 1];
             IERC20(sellToken).safeIncreaseAllowance(Addresses.curveRouter, sellAmount);
 
-            receiveAmt = ICurveRegistryExchange(Addresses.curveRouter).exchange(
-                _pool[sellToken][buyToken], sellToken, buyToken, sellAmount, minBuyAmount, receiver
-            );
+            receiveAmt = ICurveRegistryExchange(Addresses.curveRouter)
+                .exchange(_pool[sellToken][buyToken], sellToken, buyToken, sellAmount, minBuyAmount, receiver);
 
             sellAmount = IERC20(buyToken).balanceOf(address(this));
             unchecked {

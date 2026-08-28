@@ -11,6 +11,8 @@ fs_permissions = [{ access = "read-write", path = "./"}]
 [fmt]
 line_length=130
 tab_width=4
-func_attrs_with_params_multiline=true
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
+
+[profile.ci]
+# CI selects FOUNDRY_PROFILE=ci; inherit the default settings.

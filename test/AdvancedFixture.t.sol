@@ -20,16 +20,7 @@ import "./config/Paths.cross.t.sol";
 import "./config/Pools.t.sol";
 import "./config/Fees.t.sol";
 
-abstract contract AdvancedFixture is
-    Test,
-    SingleSwapPaths,
-    MultiSwapPaths,
-    CrossDexSwapPaths,
-    Pools,
-    Fees,
-    EnvVariables,
-    Types
-{
+abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, CrossDexSwapPaths, Pools, Fees, EnvVariables, Types {
     uint256 _polygonFork;
 
     UniversalLiquidator internal _universalLiquidator;

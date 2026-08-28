@@ -122,9 +122,7 @@ contract UniversalLiquidatorTest is AdvancedFixture {
         vm.stopPrank();
     }
 
-    function _swapWithoutApproval(address _sellToken, address _buyToken, address _whale, DexSetting[] memory _dexSetup)
-        internal
-    {
+    function _swapWithoutApproval(address _sellToken, address _buyToken, address _whale, DexSetting[] memory _dexSetup) internal {
         // whale transfer token to farmer
         uint256 sellAmount = IERC20(_sellToken).balanceOf(_whale) / 100;
         uint256 minBuyAmount = 1;
