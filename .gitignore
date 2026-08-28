@@ -10,3 +10,6 @@ broadcast/
 
 # Node modules
 node_modules/
+
+# generated route proposals, regenerate with `yarn registry:routes`
+tools/proposals.json
