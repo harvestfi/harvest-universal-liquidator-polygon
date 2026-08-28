@@ -1,9 +1,10 @@
 {
-    "network": "base",
+    "network": "polygon",
+    "chainId": 137,
     "registry": "0xfaa8257a33d460a077a09fc10347423865af76b3",
     "universalLiquidator": "0x612cc8d1f3f4620cdc544ca60580110d81a4ba87",
     "owner": "0x6a74649aCFD7822ae8Fb78463a9f2192752E5Aa2",
-    "generatedAtBlock": 92811827,
+    "generatedAtBlock": 92812725,
     "intermediateTokens": [
         "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
         "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
