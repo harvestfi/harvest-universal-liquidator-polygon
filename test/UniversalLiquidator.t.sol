@@ -13,7 +13,8 @@ import {AdvancedFixture} from "./AdvancedFixture.t.sol";
 contract UniversalLiquidatorTest is AdvancedFixture {
     address _farmer;
 
-    constructor() {
+    function setUp() public override {
+        super.setUp();
         startHoax(_governance);
         _setupDexes();
         // setup intermediate tokens
@@ -23,9 +24,6 @@ contract UniversalLiquidatorTest is AdvancedFixture {
         // setup pools
         _setupPools();
         vm.stopPrank();
-    }
-
-    function setUp() public {
         // mock farmer address
         _farmer = makeAddr("farmer");
     }
@@ -122,9 +120,7 @@ contract UniversalLiquidatorTest is AdvancedFixture {
         vm.stopPrank();
     }
 
-    function _swapWithoutApproval(address _sellToken, address _buyToken, address _whale, DexSetting[] memory _dexSetup)
-        internal
-    {
+    function _swapWithoutApproval(address _sellToken, address _buyToken, address _whale, DexSetting[] memory _dexSetup) internal {
         // whale transfer token to farmer
         uint256 sellAmount = IERC20(_sellToken).balanceOf(_whale) / 100;
         uint256 minBuyAmount = 1;

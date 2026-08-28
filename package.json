@@ -8,7 +8,12 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "registry:seed": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/08-seed-registry.ts",
+    "registry:audit": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/09-audit-registry.ts",
+    "registry:sync": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/10-sync-registry.ts",
+    "registry:routes": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/11-propose-routes.ts",
+    "registry:apply": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/12-apply-proposals.ts"
   },
   "repository": {
     "type": "git",
@@ -24,6 +29,10 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
-    "husky": "^8.0.3"
+    "@types/node": "^20.11.0",
+    "ethers": "^5.7.2",
+    "husky": "^8.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

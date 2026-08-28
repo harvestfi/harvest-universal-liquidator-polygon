@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
       - "**"
@@ -19,9 +19,9 @@ jobs:
         with:
           submodules: recursive
       - name: Install Foundry
-        uses: onbjerg/foundry-toolchain@v1
+        uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: nightly
+          version: v1.8.0
       - name: Run forge fmt
         run: forge fmt --check
   test:
@@ -32,9 +32,9 @@ jobs:
           submodules: recursive
 
       - name: Install Foundry
-        uses: onbjerg/foundry-toolchain@v1
+        uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: nightly
+          version: v1.8.0
 
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v1.3.0

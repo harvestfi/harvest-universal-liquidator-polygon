@@ -20,8 +20,9 @@ contract UniV3DexTest is AdvancedFixture {
 
     function testCannotSetPoolFeeFromNonOwner() public {
         // deploy dex
-        vm.prank(_governance);
+        vm.startPrank(_governance);
         _uniV3Dex = new UniV3Dex();
+        vm.stopPrank();
         vm.expectRevert("Ownable: caller is not the owner");
         _uniV3Dex.setFee(_fees[0].sellToken, _fees[0].buyToken, uint24(_fees[0].fee));
         vm.prank(_governance);

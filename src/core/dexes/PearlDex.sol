@@ -28,16 +28,15 @@ contract PearlDex is Ownable, ILiquidityDex, PearlDexStorage {
 
         IERC20(sellToken).safeIncreaseAllowance(Addresses.pearlRouter, _sellAmount);
 
-        IRouter.Route[] memory routes = new IRouter.Route[](_path.length-1);
+        IRouter.Route[] memory routes = new IRouter.Route[](_path.length - 1);
         for (uint256 idx = 0; idx < _path.length - 1; idx++) {
             routes[idx].from = _path[idx];
             routes[idx].to = _path[idx + 1];
             routes[idx].stable = stable(_path[idx], _path[idx + 1]);
         }
 
-        uint256[] memory returned = IRouter(Addresses.pearlRouter).swapExactTokensForTokens(
-            _sellAmount, _minBuyAmount, routes, _receiver, block.timestamp
-        );
+        uint256[] memory returned = IRouter(Addresses.pearlRouter)
+            .swapExactTokensForTokens(_sellAmount, _minBuyAmount, routes, _receiver, block.timestamp);
 
         return returned[returned.length - 1];
     }

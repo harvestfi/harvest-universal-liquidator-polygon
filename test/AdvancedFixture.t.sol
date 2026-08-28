@@ -20,17 +20,11 @@ import "./config/Paths.cross.t.sol";
 import "./config/Pools.t.sol";
 import "./config/Fees.t.sol";
 
-abstract contract AdvancedFixture is
-    Test,
-    SingleSwapPaths,
-    MultiSwapPaths,
-    CrossDexSwapPaths,
-    Pools,
-    Fees,
-    EnvVariables,
-    Types
-{
+abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, CrossDexSwapPaths, Pools, Fees, EnvVariables, Types {
     uint256 _polygonFork;
+    // Pinned so the suite is reproducible; forking at latest let it drift with
+    // whatever the chain happened to look like that day.
+    uint256 public _POLYGON_FORK_BLOCK_NUMBER = 50000000;
 
     UniversalLiquidator internal _universalLiquidator;
     UniversalLiquidatorRegistry internal _universalLiquidatorRegistry;
@@ -49,10 +43,12 @@ abstract contract AdvancedFixture is
         0xc2132D05D31c914a87C6611C10748AEb04B58e8F // USDT
     ];
 
-    constructor() {
+    // Cheatcode state set in a test contract's constructor is not honoured by
+    // current forge, so the fork and deploys must happen in setUp().
+    function setUp() public virtual {
         startHoax(EnvVariables._governance);
         // fork testing environment
-        _polygonFork = vm.createFork(_POLYGON_RPC_URL);
+        _polygonFork = vm.createFork(_POLYGON_RPC_URL, _POLYGON_FORK_BLOCK_NUMBER);
         vm.selectFork(_polygonFork);
         // deploy UL, ULR, and dexes
         _universalLiquidatorRegistry = new UniversalLiquidatorRegistry();
