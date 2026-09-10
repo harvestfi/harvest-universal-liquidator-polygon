@@ -1,4 +1,17 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-forge fmt
+# This used to run a bare `forge fmt`, which reformatted files after they were
+# staged using whatever forge happened to be on PATH. An older version then
+# quietly rewrote the tree into a style CI's pinned forge rejects, so the commit
+# looked clean locally and failed lint. Only format when the local version is
+# the one CI pins in .github/workflows/CI.yml; otherwise say so and leave the
+# tree alone -- CI stays the authority either way.
+PINNED_FORGE=1.8.0
+
+if forge --version 2>/dev/null | grep -q "$PINNED_FORGE"; then
+    forge fmt
+else
+    echo "pre-commit: skipping forge fmt, it is not forge $PINNED_FORGE (CI formats with that one)"
+    echo "pre-commit: install it with: foundryup --install v$PINNED_FORGE"
+fi
