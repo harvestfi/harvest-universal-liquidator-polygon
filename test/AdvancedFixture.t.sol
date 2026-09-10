@@ -79,19 +79,55 @@ abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, Cros
         _universalLiquidatorRegistry.addDex(bytes32(bytes("curve")), address(_curveDex));
     }
 
+    /// The token sequence a pair is registered with on a dex, endpoints if none.
+    function _hopsFor(string memory dexName, address sellToken, address buyToken) internal view returns (address[] memory) {
+        bytes32 wanted = keccak256(bytes(dexName));
+        for (uint256 set; set < 3;) {
+            uint256 count = set == 0 ? _singleTokenPairCount : set == 1 ? _multiTokenPairCount : _crossDexTokenPairCount;
+            for (uint256 i; i < count;) {
+                Types.TokenPair storage pair =
+                    set == 0 ? _singleTokenPairs[i] : set == 1 ? _multiTokenPairs[i] : _crossDexTokenPairs[i];
+                if (pair.sellToken == sellToken && pair.buyToken == buyToken) {
+                    for (uint256 d; d < pair.dexSetup.length;) {
+                        if (keccak256(bytes(pair.dexSetup[d].dexName)) == wanted) return pair.dexSetup[d].paths;
+                        unchecked {
+                            ++d;
+                        }
+                    }
+                }
+                unchecked {
+                    ++i;
+                }
+            }
+            unchecked {
+                ++set;
+            }
+        }
+        address[] memory direct = new address[](2);
+        direct[0] = sellToken;
+        direct[1] = buyToken;
+        return direct;
+    }
+
     function _setupPools() internal {
         for (uint256 i; i < _poolPairsCount;) {
             string memory dexName = _pools[i].dexName;
             address dexAddress = _dexesByName[_pools[i].dexName].addr;
             if (keccak256(bytes(dexName)) == keccak256(bytes("BalancerDex"))) {
-                (bool success, bytes memory data) = dexAddress.call(
-                    abi.encodeWithSignature(
-                        "setPool(address,address,bytes32[])", _pools[i].sellToken, _pools[i].buyToken, _pools[i].pools
-                    )
-                );
-                if (!success) {
-                    console2.log("curve setPool failed: ");
-                    console2.logBytes(data);
+                // The config gives one pool id per hop, while the dex keys pools
+                // by adjacent pair, so each id is set against its own hop.
+                address[] memory hops = _hopsFor(dexName, _pools[i].sellToken, _pools[i].buyToken);
+                for (uint256 k; k < _pools[i].pools.length && k + 1 < hops.length;) {
+                    (bool success, bytes memory data) = dexAddress.call(
+                        abi.encodeWithSignature("setPool(address,address,bytes32)", hops[k], hops[k + 1], _pools[i].pools[k])
+                    );
+                    if (!success) {
+                        console2.log("balancer setPool failed: ");
+                        console2.logBytes(data);
+                    }
+                    unchecked {
+                        ++k;
+                    }
                 }
             } else if (keccak256(bytes(dexName)) == keccak256(bytes("CurveDex"))) {
                 (bool success, bytes memory data) = dexAddress.call(
@@ -122,7 +158,7 @@ abstract contract AdvancedFixture is Test, SingleSwapPaths, MultiSwapPaths, Cros
                     abi.encodeWithSignature("setFee(address,address,uint24)", _fees[i].sellToken, _fees[i].buyToken, _fees[i].fee)
                 );
                 if (!success) {
-                    console2.log("curve setPool failed: ");
+                    console2.log("setFee failed: ");
                     console2.logBytes(data);
                 }
             }
