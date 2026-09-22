@@ -13,7 +13,8 @@
     "registry:audit": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/09-audit-registry.ts",
     "registry:sync": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/10-sync-registry.ts",
     "registry:routes": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/11-propose-routes.ts",
-    "registry:apply": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/12-apply-proposals.ts"
+    "registry:apply": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/12-apply-proposals.ts",
+    "registry:watch": "REGISTRY_MANIFEST=tools/registry.json REGISTRY_PROPOSALS=tools/proposals.json ts-node tools/13-watch-registry.ts"
   },
   "repository": {
     "type": "git",
