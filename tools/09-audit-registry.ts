@@ -11,7 +11,8 @@ const deployments: any = (() => {
 })();
 import {
     Call, DexEntry, IAERO_ROUTER, IALGEBRA, IBALANCER_DEX, IBVAULT, IDEX, IERC20, IFACTORY, IREGISTRY,
-    Manifest, Res, ZERO, decode, key, lc, loadManifest, multicall, provider, readChainPaths,
+    Manifest, QUOTE_CHUNK, Res, Route, ZERO, buildQuote, decode, key, lc, loadManifest, multicall,
+    provider, readChainPaths, readQuote,
 } from "./utils/registry";
 
 // AUDIT_STRICT=1 makes warnings fail the run too.
@@ -29,7 +30,7 @@ const report = (sev: Sev, group: string, msg: string) => findings.push({ sev, gr
 const isZero = (a?: string) => !a || /^0x0+$/.test(a);
 const units = (v: BigNumber, d: number) => Number(utils.formatUnits(v, d));
 
-interface Hop { pathIdx: number; i: number; a: string; b: string; dex: DexEntry; pool?: string; note?: string; ts?: number }
+interface Hop { pathIdx: number; i: number; a: string; b: string; dex: DexEntry; pool?: string; note?: string; ts?: number; fee?: number }
 
 async function main() {
     const p = provider();
@@ -188,6 +189,7 @@ async function main() {
             }
             case "uniV3": {
                 const fee = decode<number>(IDEX, "pairFee", r) ?? h.dex.defaultFee!;
+                h.fee = fee;
                 h.note = `fee ${fee}`;
                 return { target: h.dex.poolFactory!, data: IFACTORY.encodeFunctionData("getPool(address,address,uint24)", [h.a, h.b, fee]) };
             }
@@ -221,6 +223,8 @@ async function main() {
 
     const bad = (h: Hop, why: string) =>
         report("ERROR", "hops", `${m.paths[h.pathIdx].symbols} [${h.dex.name}] hop${h.i} ${sym(h.a)}/${sym(h.b)}: ${why}`);
+    const warn = (h: Hop, why: string) =>
+        report("WARN", "thin-tick", `${m.paths[h.pathIdx].symbols} [${h.dex.name}] hop${h.i} ${sym(h.a)}/${sym(h.b)}: ${why}`);
 
     const balCalls: Call[] = [];
     const balOf: { hop: Hop; token: string; idx: number }[] = [];
@@ -278,6 +282,7 @@ async function main() {
 
     const seen = new Set<Hop>();
     const held = new Map<Hop, boolean>();
+    const suspect: Hop[] = [];
     for (const { hop, token, idx } of balOf) {
         if (token === "") {
             const probe = bals[idx];
@@ -288,8 +293,12 @@ async function main() {
             continue;
         }
         if (token === "@liquidity") {
+            // liquidity() is what sits at the current tick, not what the pool
+            // can fill: a swap crosses into initialised ticks and often still
+            // executes. So this only marks the hop as suspect --- whether it
+            // can actually swap is settled below, by asking for a quote.
             const liq = decode<BigNumber>(ICLPOOL, "liquidity", bals[idx]);
-            if (liq?.isZero()) bad(hop, `pool ${hop.pool} has no active liquidity (${hop.note})`);
+            if (liq?.isZero()) suspect.push(hop);
             continue;
         }
         const raw = decode<BigNumber>(IERC20, "balanceOf", bals[idx]);
@@ -312,13 +321,77 @@ async function main() {
             report("WARN", "implicit-fee",
                 `${m.paths[h.pathIdx].symbols} hop${h.i} ${sym(h.a)}/${sym(h.b)} uses fee ${h.dex.defaultFee} — indistinguishable from unset`);
 
+    // ---------- suspect pools: can they actually swap? ----------
+    // Asking the dex's own quoter is the only answer that counts. A pool with
+    // nothing at the current tick that still fills a swap is worth a warning,
+    // not an error --- and one that reverts is the real thing, the case where a
+    // doHardWork fails while the pool looks funded.
+    if (suspect.length) {
+        const probeBal = await multicall(p, suspect.map((h) => ({
+            target: h.a, data: IERC20.encodeFunctionData("balanceOf", [h.pool!]),
+        })));
+        const jobs: { hop: Hop; idx: number }[] = [];
+        const probes: Call[] = [];
+        suspect.forEach((h, i) => {
+            const bal = decode<BigNumber>(IERC20, "balanceOf", probeBal[i]) ?? BigNumber.from(0);
+            // a thousandth of what the pool holds: small enough to fill from a
+            // nearby tick, large enough not to round to nothing
+            const amount = bal.div(1000);
+            if (amount.isZero()) return;
+            const route: Route = {
+                dex: h.dex, tokens: [h.a, h.b], tiers: [h.fee ?? h.ts ?? 0],
+                stable: [], pools: [h.pool!], poolIds: [], label: "",
+            };
+            const call = buildQuote(route, amount);
+            if (!call) return;
+            jobs.push({ hop: h, idx: probes.length });
+            probes.push(call);
+        });
+        const quoted = probes.length ? await multicall(p, probes, QUOTE_CHUNK) : [];
+        const settled = new Set<Hop>();
+        for (const j of jobs) {
+            settled.add(j.hop);
+            const route: Route = {
+                dex: j.hop.dex, tokens: [j.hop.a, j.hop.b], tiers: [j.hop.fee ?? j.hop.ts ?? 0],
+                stable: [], pools: [j.hop.pool!], poolIds: [], label: "",
+            };
+            const got = readQuote(route, quoted[j.idx]);
+            if (got && !got.isZero())
+                warn(j.hop, `pool ${j.hop.pool} has nothing at the current tick but still quotes, `
+                    + `so it fills by crossing ticks (${j.hop.note})`);
+            else
+                bad(j.hop, `pool ${j.hop.pool} cannot swap: nothing at the current tick and a probe `
+                    + `swap does not quote (${j.hop.note})`);
+        }
+        for (const h of suspect)
+            if (!settled.has(h)) bad(h, `pool ${h.pool} holds none of ${sym(h.a)} and has no active liquidity (${h.note})`);
+    }
+
     // ---------- output ----------
-    const errors = findings.filter((f) => f.sev === "ERROR");
-    const warns = findings.filter((f) => f.sev === "WARN");
+    // Some findings are real and not going to be fixed --- a path registered on
+    // chain that cannot be unregistered, say, since the registry has no
+    // removePath. Those are declared in the manifest so the audit still shows
+    // them but stops failing on them, and so the decision is reviewable.
+    const accepted = m.accepted ?? [];
+    const used = new Set<number>();
+    const isAccepted = (f: { group: string; msg: string }) => {
+        const at = accepted.findIndex((a) => a.group === f.group && f.msg.includes(a.contains));
+        if (at < 0) return false;
+        used.add(at);
+        return true;
+    };
+    const excused = findings.filter(isAccepted);
+    const live = findings.filter((f) => !excused.includes(f));
+    const errors = live.filter((f) => f.sev === "ERROR");
+    const warns = live.filter((f) => f.sev === "WARN");
+    // An entry that matches nothing has outlived whatever it was hiding, and
+    // silences nothing now --- say so, so it can be taken back out.
+    for (const [i, a] of accepted.entries())
+        if (!used.has(i)) warns.push({ sev: "WARN", group: "stale-accepted", msg: `nothing matches "${a.contains}" any more --- drop it from accepted` });
     console.log(`registry ${m.registry} @ block ${await p.getBlockNumber()}`);
     console.log(`  ${m.dexes.length} dexes | ${m.paths.length} paths | ${hops.length} hops | ${tokens.length} tokens\n`);
     for (const sev of ["ERROR", "WARN"] as Sev[]) {
-        const list = findings.filter((f) => f.sev === sev);
+        const list = (sev === "ERROR" ? errors : warns);
         const groups = [...new Set(list.map((f) => f.group))];
         for (const g of groups) {
             const items = list.filter((f) => f.group === g);
@@ -327,7 +400,16 @@ async function main() {
             if (items.length > 40) console.log(`  ... and ${items.length - 40} more`);
         }
     }
-    console.log(`\n${errors.length} error(s), ${warns.length} warning(s)`);
+    if (excused.length) {
+        console.log(`ACCEPTED (${excused.length})`);
+        for (const f of excused) {
+            const a = accepted.find((x) => x.group === f.group && f.msg.includes(x.contains))!;
+            console.log(`  - ${f.msg}`);
+            console.log(`    accepted${a.since ? ` ${a.since}` : ""}: ${a.reason}`);
+        }
+    }
+    console.log(`\n${errors.length} error(s), ${warns.length} warning(s)`
+        + (excused.length ? `, ${excused.length} accepted` : ""));
     if (errors.length || (STRICT && warns.length)) process.exitCode = 1;
 }
 

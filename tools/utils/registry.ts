@@ -75,6 +75,21 @@ export const CHAIN_NAMES: Record<number, string> = {
     1: "ethereum", 10: "optimism", 137: "polygon", 8453: "base", 42161: "arbitrum",
 };
 
+/**
+ * A finding the audit should report but not fail on. Kept in the manifest so
+ * the decision is reviewable, and matched narrowly so it silences one known
+ * thing rather than a class of them.
+ */
+export interface Accepted {
+    /** the finding's group, e.g. "hops" */
+    group: string;
+    /** substring the finding's message must contain */
+    contains: string;
+    /** why this is tolerable --- required, because a silence with no reason rots */
+    reason: string;
+    since?: string;
+}
+
 export interface Manifest {
     network: string;
     /** read from the chain, so a manifest cannot silently describe another one */
@@ -90,6 +105,8 @@ export interface Manifest {
     minLiquidity: Record<string, string>;
     dexes: DexEntry[];
     paths: PathEntry[];
+    /** audit findings the maintainer has looked at and decided to live with */
+    accepted?: Accepted[];
 }
 
 export const IREGISTRY = new utils.Interface([
@@ -356,6 +373,10 @@ export interface Proposal {
     gainBps: number;
     /** share of input value the proposed route returns; absent when the buy token could not be priced */
     kept?: number;
+    /** exact input the quote used --- set when it is not the file's headline size */
+    amountIn?: string;
+    /** dollar size that input stands for, when a smaller one than the file's was needed */
+    sizeUsd?: number;
     current: { dex: string; path: string[]; symbols: string; out: string };
     proposed: { dex: string; kind: DexKind; path: string[]; symbols: string; out: string; hops: ProposalHop[] };
 }
