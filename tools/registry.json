@@ -174,43 +174,43 @@
         {
             "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
             "buyToken": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
-            "symbols": "QUICK > WPOL",
-            "dex": "quickswap",
+            "symbols": "QUICK > WETH > WPOL",
+            "dex": "quickswapLegacy",
             "path": [
                 "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
+                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
                 "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
             ]
         },
         {
             "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
             "buyToken": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-            "symbols": "QUICK > WPOL > USDC",
+            "symbols": "QUICK > WETH > USDC",
             "dex": "quickswapLegacy",
             "path": [
                 "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
                 "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
             ]
         },
         {
             "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
             "buyToken": "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
-            "symbols": "QUICK > WPOL > WBTC",
+            "symbols": "QUICK > WETH > WBTC",
             "dex": "quickswapLegacy",
             "path": [
                 "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
                 "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6"
             ]
         },
         {
             "sellToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
             "buyToken": "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-            "symbols": "QUICK > WPOL > WETH",
+            "symbols": "QUICK > WETH",
             "dex": "quickswapLegacy",
             "path": [
                 "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-                "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
                 "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
             ]
         },
@@ -392,10 +392,11 @@
         {
             "sellToken": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
             "buyToken": "0xb5c064f955d8e7f38fe0460c556a72987494ee17",
-            "symbols": "WPOL > QUICK",
-            "dex": "quickswap",
+            "symbols": "WPOL > WETH > QUICK",
+            "dex": "quickswapLegacy",
             "path": [
                 "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
                 "0xb5c064f955d8e7f38fe0460c556a72987494ee17"
             ]
         },
